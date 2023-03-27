@@ -1,10 +1,16 @@
-public class input {
+public class output {
     int main(){
-        boolean x=true,z=true;
-        if(x==true){
-            if(z==true){
-                print();
+        int x=1,z=1;
+        if(x==1){
+            if(z==1){
+                
             }
         }
+        if(x==1){
+            if(z==0){
+                
+            }
+        }
+        
     }
 }
