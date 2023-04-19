@@ -85,6 +85,33 @@ public class TestIf extends JavaParserBaseListener{
     public void enterBlock(JavaParser.BlockContext ctx) {
         count++;
         rewriter.insertAfter(ctx.getStart(), "//block number " + count + "\n");
+        rewriter.insertAfter(ctx.getStart(), "\n\t\tw.write(\"block number "+ count +" visited\\n\");" );
+        rewriter.insertAfter(ctx.getStart(),"\n\t\twcss.write(\"#block_"+count+"{\\n\" +\n" +
+                "                    \"    background-color: #83F492;\\n\" +\n" +
+                "                    \"}\");\n" +
+                "            ");
+        String s= "block_"+count;
+        rewriter_html.insertBefore(ctx.getStart(), "<div  class=\"global_class\" id=\""+s+"\">");
+        rewriter_html.insertAfter(ctx.getStop(), "</div>");
+    }
+    @Override
+    public void enterCompilationUnit(JavaParser.CompilationUnitContext ctx) {
+        int num_import= ctx.children.size()-1;
+        int f_File=0, f_Filewriter=0, f_IOException=0, f_Desktop=0;
+        for (int i=0;i<num_import;i++)
+        {
+         String imp= String.valueOf(ctx.importDeclaration(i).getText()).trim().strip();
+         //System.out.println(imp.trim().strip());
+         if ( imp.equals("importjava.io.File;") ) f_File=1;
+         if ( imp.equals("importjava.io.FileWriter;") ) f_Filewriter=1;
+         if ( imp.equals("importjava.io.IOException;") ) f_IOException=1;
+         if ( imp.equals("importjava.awt.Desktop;") ) f_Desktop=1;
+        }
+        if (f_File==0) rewriter.insertBefore(ctx.getStart(),"import java.io.File;\n");
+        if(f_Filewriter==0) rewriter.insertBefore(ctx.getStart(),"import java.io.FileWriter;\n");
+        if (f_IOException==0) rewriter.insertBefore(ctx.getStart(),"import java.io.IOException;\n" );
+        if(f_Desktop==0) rewriter.insertBefore(ctx.getStart(),"import java.awt.Desktop;\n");
+        // "import java.util.Scanner;\n");// user should put its own scanner if they need it, I'm not their babysitter
     }
 
 
