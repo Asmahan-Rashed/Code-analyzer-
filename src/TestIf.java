@@ -116,3 +116,52 @@ public class TestIf extends JavaParserBaseListener{
 
 
 }
+ @Override
+    public void enterClassBody(JavaParser.ClassBodyContext ctx) {
+        rewriter.insertAfter(ctx.LBRACE().getSymbol(),"\n\tFile output = new File(\"out.txt\");\n" +
+                "    public static FileWriter w;\n" +
+                "\n" +
+                "    static {\n" +
+                "        try {\n" +
+                "            w = new FileWriter(\"out.txt\");\n" +
+                "        } catch (IOException e) {\n" +
+                "            throw new RuntimeException(e);\n" +
+                "        }\n" +
+                "    }\n\t");
+        rewriter.insertAfter(ctx.LBRACE().getSymbol(),"\n\tFile outcss = new File(\"path/style.css\");\n" +
+                "    public static FileWriter wcss;\n" +
+                "\n" +
+                "    static {\n" +
+                "        try {\n" +
+                "            wcss = new FileWriter(\"path/style.css\");\n" +
+                "        } catch (IOException e) {\n" +
+                "            throw new RuntimeException(e);\n" +
+                "        }\n" +
+                "    }\n\t");
+    }
+
+    @Override
+    public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+        if (ctx.qualifiedNameList() == null )
+            rewriter.insertBefore(ctx.methodBody().getStart(),"throws Exception");
+
+        if((ctx.identifier().getText()).equals("main")){
+            rewriter.insertBefore(ctx.methodBody().getStop(),"\n\t\tw.close();\n");
+            rewriter.insertBefore(ctx.getStop(),"\n\t\twcss.close();\n");
+            rewriter.insertBefore(ctx.getStop(),"String url =\"path/new.html\";\n" +//open html broweser
+                    "        File htmlFile = new File(url);\n" +
+                    "        Desktop.getDesktop().browse(htmlFile.toURI());\n");
+        }
+    }
+
+    @Override
+    public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+        if((ctx.identifier().getText()).equals("main")){
+            rewriter.insertAfter(ctx.methodBody().block().LBRACE().getSymbol(), "\n\t\twcss.write(\".global_class{background-color:#F73C78}\\n\" +\n" +
+                "                \"body{\\n\" +\n" +
+                "                \"background-color: #83F492;\\n\" +\n" +
+                "                \"}\\n\");" );
+    }
+    }
+}
+
