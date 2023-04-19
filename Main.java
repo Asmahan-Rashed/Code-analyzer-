@@ -12,7 +12,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         String inputFile = "input.java";
         FileInputStream is = new FileInputStream(inputFile);
-        //String is="if(x==true){if(z==false)print()}";
         ANTLRInputStream input = new ANTLRInputStream(is);
         JavaLexer lexer = new JavaLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -26,27 +25,5 @@ public class Main {
         FileWriter w = new FileWriter("output.java");
         w.write(rewriter.getText());
         w.close();
-        
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-        String inputFilee = "output.java";
-        FileInputStream iss = new FileInputStream(inputFilee);
-        //String is="if(x==true){if(z==false)print()}";
-        ANTLRInputStream inputt = new ANTLRInputStream(iss);
-        JavaLexer lexerr = new JavaLexer(inputt);
-        CommonTokenStream tokenss = new CommonTokenStream(lexerr);
-        JavaParser parserr = new JavaParser(tokenss);
-        ParseTree treee = parserr.compilationUnit();
-        TokenStreamRewriter rewriterr = new TokenStreamRewriter(tokenss);
-        Testvisit tv= new Testvisit(rewriterr);
-        tv.visit(treee);
-
-        File outputt = new File("outputt.java");
-        outputt.createNewFile();
-        FileWriter ww = new FileWriter("outputt.java");
-        ww.write(rewriterr.getText());
-        ww.close();
     }
 }
