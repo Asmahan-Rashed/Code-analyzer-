@@ -1,6 +1,12 @@
 # Compiler_project
 
-## First Task
+
+- You should have Java installed, We used Intelj to devolp this project and we used [Antlr4](https://jar-download.com/artifacts/org.antlr/antlr4-runtime?p=2) and [commons-io-2.11.0](https://commons.apache.org/proper/commons-io/download_io.cgi).
+
+## How it works:
+
+- Just input the file path for the code that needed to be analyzed, and you'll get a html page where the green sections indicate the sections that the code has entered and excuted safly, the pink sections are the sections that haven't been excuted and the orange color indicates branch coverage cases.
+
 In this project, We use **Antlr4 program** to read *if statment* which takes each block and numbering it sequentially.
 Once we put an input which contains **nested if** with *True* or *False* condition as input shown :
 
