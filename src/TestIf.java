@@ -4,11 +4,14 @@ public class TestIf extends JavaParserBaseListener{
 
     int count;
     TokenStreamRewriter rewriter;
+    TokenStreamRewriter rewriter_html;
 
-    public TestIf(TokenStreamRewriter rewriter) {
-        this.rewriter = rewriter;
+    public TestIf(TokenStreamRewriter rewriter,TokenStreamRewriter rewriter_html) {
+        this.rewriter = rewriter;//that one writes the aug. code, aka output.java
+        this.rewriter_html=rewriter_html;
         this.count=0;
     }
+
 
     @Override
     public void enterStatement(JavaParser.StatementContext ctx) {
